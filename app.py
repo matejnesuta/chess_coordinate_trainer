@@ -88,21 +88,30 @@ class App(tk.Tk):
     def game(self):
         if self.gameOn==0:
             self.gameOn=1
+            self.startname.set("Storno")
             self.timer=30.00
             self.index=random.randint(0,63)
             self.souradnice.set(self.coordinates[self.index])
             self.time.set(self.timer)
-            self.after(1000,self.stopky)
+            self.after(100,self.stopky)
         else:
-            pass
+            self.gameOn=0
+            self.souradnice.set("...")
+            self.score.set(0)
+            self.timer=0.0
+            self.time.set(00.00)
+            self.startname.set("Start")
     def stopky(self):
         if self.timer >= 0:
             self.time.set(self.timer)
             self.timer-=1
-            self.after(1000,self.stopky)
+            self.after(1000, self.stopky)
         else:
             self.gameOn=0
             self.souradnice.set("...")
+            messagebox.showinfo("Konec hry","Dosažené skóre: "+str(self.score.get()))
+            self.score.set(0)
+            self.startname.set("Start")
     
     def callback(self, click):
             if self.gameOn == 1:  
@@ -114,7 +123,9 @@ class App(tk.Tk):
                 pass    
                 
     def ribbon(self):
-        self.start=tk.Button(text="Start", image=self.img, compound=tk.LEFT, height=21, width=192, command=lambda:self.game())
+        self.startname=tk.StringVar()
+        self.startname.set("Start")
+        self.start=tk.Button(textvariable=self.startname, image=self.img, compound=tk.LEFT, height=21, width=192, command=lambda:self.game())
         self.options=tk.Button(text="Nastavení", image=self.img, compound=tk.LEFT, height=21, width=192, command=lambda:self.settings())
         self.vysledky=tk.Button(text="Tabulka výsledků", image=self.img, compound=tk.LEFT, height=21, width=192, )
         self.about=tk.Button(text="O aplikaci", image=self.img, compound=tk.LEFT, height=21, width=192, command=lambda:self.info())
