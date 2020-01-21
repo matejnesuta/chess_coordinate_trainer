@@ -62,20 +62,26 @@ class App(tk.Tk):
 
     def info(self):
         self.win = tk.Toplevel()
-        self.win.wm_title("Window")
+        self.win.wm_title("Info")
         self.win.grab_set()
         l = tk.Label(self.win, text="Tato krásná věc byla vytvořena jako můj domácí úkol. \n\n “The blunders are all there on the board, waiting to be made.” - Savielly Tartakower")
         l.grid(row=0, column=0)
     
     def leaderboard(self):
-        pass
-        """self.win = tk.Toplevel()
+        self.win = tk.Toplevel()
+        self.win.geometry("200x200")
+        self.win.resizable(0,0)
         self.win.wm_title("Žebříček")
         self.win.grab_set()
+        self.win.configure(background="#bfbfbf")
+        string=tk.StringVar()
         with open("leaderboard.json", "r") as inside:
             data = json.load(inside)
-        print (data[0])
-        text = tk.Label(self.win, state='normal', height=20, width=60)"""
+        print (data[0]["jmeno"])
+        text = tk.Label(self.win, font=("Helvetica, 20"), textvariable=string, state='normal', height=20, width=60)
+        for i in range (1,6):
+            string.set(string.get()+str(i)+".  "+data[i-1]["jmeno"]+"  "+str(data[i-1]["score"])+"\n")
+        text.pack()
 
     """Vykreslení šachovnice samotné. Každé políčko je vyvoláno jako tlačítko a přidáno do listu. 
     Tlačítka vrací index od 0-63 a ten se porovnává s náhodně vygenerovaným indexem, který určuje souřadnici, jenž musí hráč najít na šachovnici."""
